@@ -4,8 +4,10 @@ RUN R -e 'install.packages("reticulate")'
 RUN R -e 'install.packages("rmarkdown")'
 
 ENV DOCS /docs
-ENV REQUIREMENTS requirements.txt
+VOLUME ${DOCS}
+
+ENV SETUP setup
 ENV ENTRY render.py
 
-COPY ${ENTRY} ${REQUIREMENTS}* ./
-ENTRYPOINT ./${ENTRY}
+COPY ${ENTRY} ${SETUP} /
+ENTRYPOINT bash -c "source ./${SETUP} && ./${ENTRY}"
