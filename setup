@@ -1,0 +1,9 @@
+: ${VIRTUAL_ENV:=venv}
+
+VENV=$DOCS/$VIRTUAL_ENV
+[ ! -f $VENV ] && python3 -m venv $VENV
+. $VENV/bin/activate
+
+REQUIREMENTS=$DOCS/requirements.txt
+
+[ -f $REQUIREMENTS ] && pip install -r $REQUIREMENTS
