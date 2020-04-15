@@ -6,4 +6,4 @@
   || make tag=$TAG docker_file=$DOCKER_FILE
 
 export DOCS=/docs
-docker run -it -v $(pwd)/${1:-.}:$DOCS $TAG
+docker run -v ${1:-$(pwd)/.}:$DOCS $TAG

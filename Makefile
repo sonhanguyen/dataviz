@@ -1,17 +1,18 @@
-docker_file ?= Dockerfile
+docker_file?=Dockerfile
+
 .PHONY: test render build
 
 build:
 	docker build -f $(docker_file) -t $(tag) .
 
-TEST=test
+TEST=$(shell pwd)/test
 
 clean:
-	rm $(TEST)/*_rmd.* || exit 0
+	rm -rf $(TEST)/*/ $(TEST)/*_rmd.* || exit 0
 	
 test:
 	make clean
-	./render $(TEST)
+	make render dir=$(TEST)
 
 render:
 	./render $(dir)

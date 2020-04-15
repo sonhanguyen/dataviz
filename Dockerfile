@@ -3,7 +3,7 @@ RUN apt-get update && apt-get -y install pandoc r-base
 RUN R -e 'install.packages("reticulate")'
 RUN R -e 'install.packages("rmarkdown")'
 
-ENV DOCS /docs
+ENV VIRTUAL_ENV=venv DOCS=/docs
 VOLUME ${DOCS}
 
 ENV SETUP setup

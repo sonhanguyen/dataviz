@@ -29,11 +29,11 @@ import subprocess
 run = lambda cmd: subprocess.run(cmd, check=True, shell=True)
 
 import warnings
-[ warnings.warn(
-    '\n{0} is already rendered, skipping..\n'.format(name) +
-    'Please delete output and try aaign if you wish to re-render it\n'
-  ) for name in skip
-]
+for name in skip: warnings.warn('''
+  {0} is already rendered, skipping..
+  Please delete output and try aaign if you wish to re-render it
+  '''.format(name)
+)
 
 to_render = pipe(
   all,
@@ -47,10 +47,10 @@ to_render = pipe(
   list
 )
 
-[ run(('cd {dir} && R -e \'rmarkdown::render("{name}", ' +
-    'output_format = rmarkdown::github_document(), ' +
-    'output_file = "{out}")\'').format(**file))
+for file in to_render: run(
   # it's important that render() is called in the same directory as the notebook
   # so that knitr cache is created inside that, which is persisted via docker volume
-  for file in to_render
-]
+  ( 'cd {dir} && R -e \'rmarkdown::render("{name}",' +
+    'output_format = rmarkdown::github_document(),' +
+    'output_file = "{out}")\'').format(**file)
+)
